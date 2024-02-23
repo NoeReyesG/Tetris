@@ -1,0 +1,1 @@
+enum checkSpace {down, left, right}; 
