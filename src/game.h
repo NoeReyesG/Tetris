@@ -25,7 +25,7 @@ private:
     void deleteRowsCompletes();
     void adjustGridAfterDeleteRow(int rowsDeleted);
     vector<int> getRowsCompletes();
-    int getRowPositionToLock();
+    bool endGame();
     vector<Block> blocks;
     Block currentBlock;
     Block nextBlock;

@@ -1,3 +1,4 @@
+
 #include <raylib.h>
 #include "game.h"
 
@@ -26,13 +27,11 @@ int main()
         if (eventTriggered(0.2)){
             game.moveBlockDown();
         }
-        
         BeginDrawing();
         game.draw();
         ClearBackground(darkBlue);       
         
-        EndDrawing();
-        
+        EndDrawing();       
     }
 
     CloseWindow();

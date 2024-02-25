@@ -1,3 +1,4 @@
+
 #include "game.h"
 #include <random>
 #include <ctime>
@@ -70,6 +71,7 @@ void Game::moveBlockRigth(){
         currentBlock.move(0,-1);
     }
 }
+
 void Game::moveBlockDown(){
 
     if (isSpaceForBlockEmpty(down)){
@@ -90,21 +92,10 @@ void Game::moveBlockDown(){
 }
 
 void Game::rotate(){
-
-
-    //currentBlock.rotateBlock();
-
-    //check block collision with another block when roating block
-    Block rotatedblock = currentBlock;
-    rotatedblock.rotateBlock();
-    bool blockOverlaid = isBlockOverlaid(rotatedblock);
-    std::cout << "overlay: " << blockOverlaid << "\n";
-    if(!blockOverlaid){
-        currentBlock.rotateBlock();
-    }
-
-
-    if (isBlockOutside())
+    currentBlock.rotateBlock();
+    bool blockOverlaid = isBlockOverlaid(currentBlock);
+    
+    if (isBlockOutside() || blockOverlaid)
         currentBlock.rotateBlockBackwards();
 }
 
@@ -113,9 +104,7 @@ bool Game::isBlockOverlaid(Block rotatedBlock){
     vector<Position> tiles = rotatedBlock.getCellPositions();
     for (Position item: tiles){
         if (grid.grid[item.row][item.column] != 0) return true;
-        std::cout << "\n" << "row: " << item.row << "col: " << item.column << "value: " << grid.grid[item.row][item.column];
     }
-
     return false;
 }
 
@@ -137,12 +126,14 @@ void Game::lockBlock(){
         
         grid.grid[item.row][item.column] = currentBlock.id;
     }
-    currentBlock = nextBlock;
-    nextBlock = getRandomBlock();
+    //If Game don't ends, then send a new Block to the game.
+    if(!endGame()){
+        currentBlock = nextBlock;
+        nextBlock = getRandomBlock();
+    }
 }
 
 bool Game::isSpaceForBlockEmpty(checkSpace direction){
-
     vector<Position> tiles = currentBlock.getCellPositions();
     switch(direction){
         case down:
@@ -166,7 +157,8 @@ bool Game::isSpaceForBlockEmpty(checkSpace direction){
                 }
             }
             return true;
-    }      
+    }
+    return true; //Control never reaches here, but I add this line to avoid a compiler warning      
 }
 
 void Game::deleteRowsCompletes(){
@@ -186,8 +178,7 @@ void Game::adjustGridAfterDeleteRow(int rowDeleted){
     for(int row = rowDeleted; row > 0; row--){
         for (int col = 0; col < cols; col++){
             grid.grid[row][col] = grid.grid[row-1][col];
-        }
-        std::cout <<"Fila: " <<  row << "\n";  
+        } 
     }
 }
 
@@ -213,4 +204,12 @@ vector<int> Game::getRowsCompletes(){
 }
 
 
-
+bool Game::endGame(){
+    
+    for(int i = 3; i < 8; i++){ //row where block emerge.
+        if (grid.grid[0][i] != 0){
+            return true;
+        }
+    }
+    return false;
+}

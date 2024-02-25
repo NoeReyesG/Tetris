@@ -48,7 +48,7 @@ void Block::rotateBlockBackwards(){
     if (rotationState == 0 && id != 4){
         rotationState = 3;
     }
-    if (id != 4){
+    else if (id != 4){
         rotationState --;
     }
 }

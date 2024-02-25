@@ -49,9 +49,6 @@ bool Grid::isCellOutside(int row, int col){
     }
     return true;
 }
-void Grid::drawL(){
-    
-}
 
 bool Grid::isCellEmpty(int row, int column){
     bool isEmpty = grid[row][column] == 0 ? true: false;
