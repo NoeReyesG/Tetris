@@ -150,26 +150,21 @@ bool Game::isSpaceForBlockEmpty(checkSpace direction){
 
 void Game::deleteRowsCompletes(){
     vector<int> rowsCompletes = getRowsCompletes();
-    for(int item: rowsCompletes){
+    for(int row: rowsCompletes){
         for (int col = 0; col < 10; col++){
-            grid.grid[item][col] = 0;
+            grid.grid[row][col] = 0;
         }
+        adjustGridAfterDeleteRow(row);
     }
-    adjustGridAfterDeleteRows(rowsCompletes);
+    
 }
 
-void Game::adjustGridAfterDeleteRows(vector<int> rowsDeleted){
+void Game::adjustGridAfterDeleteRow(int rowDeleted){
 
-    // for(int item: rowsDeleted){
-        
-    // }
-    int first = *(rowsDeleted.begin()); //get the first row that must be eliminated
-    std::cout << std::endl;
-    // int rows = 10;
-    int cols = 20;
-    for(int row = first; row > 0; row--){
+    int cols = 10;
+    for(int row = rowDeleted; row > 0; row--){
         for (int col = 0; col < cols; col++){
-            
+            grid.grid[row][col] = grid.grid[row-1][col];
         }
         std::cout <<"Fila: " <<  row << "\n";  
     }

@@ -22,7 +22,7 @@ private:
     void lockBlock();
     bool isSpaceForBlockEmpty(checkSpace);
     void deleteRowsCompletes();
-    void adjustGridAfterDeleteRows(vector<int> rowsDeleted);
+    void adjustGridAfterDeleteRow(int rowsDeleted);
     vector<int> getRowsCompletes();
     int getRowPositionToLock();
     vector<Block> blocks;
