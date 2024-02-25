@@ -90,9 +90,33 @@ void Game::moveBlockDown(){
 }
 
 void Game::rotate(){
-    currentBlock.rotateBlock();
+
+
+    //currentBlock.rotateBlock();
+
+    //check block collision with another block when roating block
+    Block rotatedblock = currentBlock;
+    rotatedblock.rotateBlock();
+    bool blockOverlaid = isBlockOverlaid(rotatedblock);
+    std::cout << "overlay: " << blockOverlaid << "\n";
+    if(!blockOverlaid){
+        currentBlock.rotateBlock();
+    }
+
+
     if (isBlockOutside())
         currentBlock.rotateBlockBackwards();
+}
+
+bool Game::isBlockOverlaid(Block rotatedBlock){
+
+    vector<Position> tiles = rotatedBlock.getCellPositions();
+    for (Position item: tiles){
+        if (grid.grid[item.row][item.column] != 0) return true;
+        std::cout << "\n" << "row: " << item.row << "col: " << item.column << "value: " << grid.grid[item.row][item.column];
+    }
+
+    return false;
 }
 
 bool Game::isBlockOutside(){
@@ -128,7 +152,6 @@ bool Game::isSpaceForBlockEmpty(checkSpace direction){
                 }
             }
             return true;
-            break;
         case left:
             for(Position item: tiles){
                 if (!grid.isCellEmpty(item.row, item.column-1)){
@@ -136,7 +159,6 @@ bool Game::isSpaceForBlockEmpty(checkSpace direction){
                 }
             }
             return true;
-            break;
         case right:
             for(Position item: tiles){
                 if (!grid.isCellEmpty(item.row, item.column+1)){
@@ -144,7 +166,6 @@ bool Game::isSpaceForBlockEmpty(checkSpace direction){
                 }
             }
             return true;
-            break;
     }      
 }
 

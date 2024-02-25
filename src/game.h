@@ -15,6 +15,7 @@ public:
     void moveBlockRigth();
     void moveBlockDown();
     void rotate();
+    bool isBlockOverlaid(Block rotatedBlock);
     bool isBlockOutside();
     void draw();
 
