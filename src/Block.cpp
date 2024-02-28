@@ -12,7 +12,7 @@ void Block::draw(){
     vector<Position> tiles = getCellPositions();
 
     for(Position item: tiles){
-        DrawRectangle(item.column*cellSize + 1, item.row*cellSize + 1, cellSize-1, cellSize-1, colors[id] );
+        DrawRectangle(item.column*cellSize + 11, item.row*cellSize + 11, cellSize-1, cellSize-1, colors[id] );
     }
 }
 
@@ -51,6 +51,22 @@ void Block::rotateBlockBackwards(){
     else if (id != 4){
         rotationState --;
     }
+}
+
+void Block::drawNextBlock(){
+    vector<Position> tiles = getCellPositions();
+
+    if (id == 3 || id == 4){
+        for(Position item: tiles){
+            DrawRectangle(item.column*cellSize+260, item.row*cellSize +275, cellSize-1, cellSize-1, colors[id] );
+        }
+    }
+    else{
+        for(Position item: tiles){
+            DrawRectangle(item.column*cellSize+270, item.row*cellSize +265, cellSize-1, cellSize-1, colors[id] );
+        }
+    }
+
 }
 
 

@@ -18,6 +18,7 @@ public:
     void move(int, int);
     void rotateBlock();
     void rotateBlockBackwards();
+    void drawNextBlock();
     vector<Position> getCellPositions();
 
 private:

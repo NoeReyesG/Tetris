@@ -3,6 +3,7 @@
 #include <random>
 #include <ctime>
 #include <iostream>
+#include <string>
 
 
 Game::Game()
@@ -29,8 +30,10 @@ vector<Block> Game::getAllBlocks(){
 };
 
 void Game::draw(){
-    grid.draw();
+    grid.draw(); 
+    DrawRectangleRounded({320, 215, 170, 180}, 0.3, 6, lightBlue); //Rectangle for next block
     currentBlock.draw();
+    nextBlock.drawNextBlock();
 }
 
 void Game::handleInput(){
@@ -49,6 +52,9 @@ void Game::handleInput(){
         case KEY_UP:
             rotate();
             break;
+    }
+    if (endGame() && keyPressed == KEY_R){
+        restartGame();
     }
 
 }
@@ -126,7 +132,7 @@ void Game::lockBlock(){
         
         grid.grid[item.row][item.column] = currentBlock.id;
     }
-    //If Game don't ends, then send a new Block to the game.
+    //If Game doesn't end, then send a new Block to the game.
     if(!endGame()){
         currentBlock = nextBlock;
         nextBlock = getRandomBlock();
@@ -169,7 +175,7 @@ void Game::deleteRowsCompletes(){
         }
         adjustGridAfterDeleteRow(row);
     }
-    
+    calculateScore(rowsCompletes.size());
 }
 
 void Game::adjustGridAfterDeleteRow(int rowDeleted){
@@ -207,9 +213,46 @@ vector<int> Game::getRowsCompletes(){
 bool Game::endGame(){
     
     for(int i = 3; i < 8; i++){ //row where block emerge.
-        if (grid.grid[0][i] != 0){
-            return true;
-        }
+        //if (currentBlock.id != 3){ 
+            if (grid.grid[0][i] != 0){ //|| grid.grid[1][i]){
+                return true;
+            }
+        //}
+        // else{
+        //     if (grid.grid[0][i] != 0){
+        //         return true;
+        //     } 
+        // }
+
     }
     return false;
 }
+
+void Game::calculateScore(int deletedRows){
+    switch(deletedRows){
+        case 1:
+            score += 100; 
+            break;
+        case 2:
+            score += 220;
+            break;
+        case 3:
+            score += 390;
+            break;
+        case 4:
+            score += 600;
+        break;
+
+    }
+}
+
+
+int Game::getScore(){
+    return score; 
+}
+
+void Game::restartGame(){
+    grid.initialize();
+    score = 0;
+}
+

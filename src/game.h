@@ -18,15 +18,21 @@ public:
     bool isBlockOverlaid(Block rotatedBlock);
     bool isBlockOutside();
     void draw();
+    bool endGame();
+    void calculateScore(int deletedRows);
+    int getScore();
 
 private:
     void lockBlock();
     bool isSpaceForBlockEmpty(checkSpace);
     void deleteRowsCompletes();
     void adjustGridAfterDeleteRow(int rowsDeleted);
+    
+    void restartGame();
+
     vector<int> getRowsCompletes();
-    bool endGame();
     vector<Block> blocks;
     Block currentBlock;
     Block nextBlock;
+    int score;
 };
