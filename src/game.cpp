@@ -12,7 +12,19 @@ Game::Game()
     blocks = getAllBlocks();
     currentBlock = getRandomBlock();
     nextBlock = getRandomBlock();
-    
+    InitAudioDevice();
+    music = LoadMusicStream("sounds/music.mp3");
+    PlayMusicStream(music);
+    rotateSound = LoadSound("sounds/rotate.mp3");
+    rowCompleteSound = LoadSound("sounds/clear.mp3");
+}
+
+Game::~Game(){
+    UnloadSound(rotateSound);
+    UnloadSound(rowCompleteSound);
+    UnloadMusicStream(music);
+    CloseAudioDevice();
+
 }
 
 Block Game::getRandomBlock(){
@@ -101,8 +113,12 @@ void Game::rotate(){
     currentBlock.rotateBlock();
     bool blockOverlaid = isBlockOverlaid(currentBlock);
     
-    if (isBlockOutside() || blockOverlaid)
+    if (isBlockOutside() || blockOverlaid){
         currentBlock.rotateBlockBackwards();
+    }
+    else{
+        PlaySound(rotateSound);
+    }
 }
 
 bool Game::isBlockOverlaid(Block rotatedBlock){
@@ -176,6 +192,7 @@ void Game::deleteRowsCompletes(){
         adjustGridAfterDeleteRow(row);
     }
     calculateScore(rowsCompletes.size());
+    PlaySound(rowCompleteSound);
 }
 
 void Game::adjustGridAfterDeleteRow(int rowDeleted){

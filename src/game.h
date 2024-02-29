@@ -6,23 +6,27 @@
 class Game {
 public:
     Game();
+    ~Game();
     Grid grid;
     Block getRandomBlock();
     vector<Block> getAllBlocks();
 
     void handleInput();
-    void moveBlockLeft();
-    void moveBlockRigth();
-    void moveBlockDown();
-    void rotate();
-    bool isBlockOverlaid(Block rotatedBlock);
-    bool isBlockOutside();
     void draw();
+    void moveBlockDown();
     bool endGame();
     void calculateScore(int deletedRows);
     int getScore();
 
+    Music music;
+
 private:
+    bool isBlockOverlaid(Block rotatedBlock);
+    bool isBlockOutside();
+    void moveBlockLeft();
+    void moveBlockRigth();
+    
+    void rotate();
     void lockBlock();
     bool isSpaceForBlockEmpty(checkSpace);
     void deleteRowsCompletes();
@@ -35,4 +39,6 @@ private:
     Block currentBlock;
     Block nextBlock;
     int score;
+    Sound rotateSound;
+    Sound rowCompleteSound;
 };

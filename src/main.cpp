@@ -24,6 +24,7 @@ int main()
     Font font = LoadFontEx("font/retroGaming.ttf", 64, 0, 0);
     Game game;
     while(WindowShouldClose() == false){
+        UpdateMusicStream(game.music);
         game.handleInput();
         if (eventTriggered(0.2)){
             game.moveBlockDown();
